@@ -2365,6 +2365,62 @@ public class SchemaTest extends FoodMartTestCase {
                 result.getAxes()[0].getPositions()));
     }
 
+    public void testLevelTableAttributeAsView_Failed() {
+      final TestContext testContext = TestContext.instance().create(
+          null,
+          "<Cube name=\"GenderCube\">\n"
+          + "  <Table name=\"sales_fact_1997\" />\n"
+          + "<Dimension name=\"Gender2\" foreignKey=\"customer_id\">\n"
+          + "  <Hierarchy hasAll=\"true\" allMemberName=\"All Gender\" primaryKey=\"customer_id\">\n"
+          + "    <View alias=\"gender2\">\n"
+          + "      <SQL dialect=\"generic\">\n"
+          + "        <![CDATA[SELECT * FROM customer]]>\n"
+          + "      </SQL>\n"
+          + "      <SQL dialect=\"oracle\">\n"
+          + "        <![CDATA[SELECT * FROM \"customer\"]]>\n"
+          + "      </SQL>\n"
+          + "      <SQL dialect=\"derby\">\n"
+          + "        <![CDATA[SELECT * FROM \"customer\"]]>\n"
+          + "      </SQL>\n"
+          + "      <SQL dialect=\"hsqldb\">\n"
+          + "        <![CDATA[SELECT * FROM \"customer\"]]>\n"
+          + "      </SQL>\n"
+          + "      <SQL dialect=\"luciddb\">\n"
+          + "        <![CDATA[SELECT * FROM \"customer\"]]>\n"
+          + "      </SQL>\n"
+          + "      <SQL dialect=\"neoview\">\n"
+          + "        <![CDATA[SELECT * FROM \"customer\"]]>\n"
+          + "      </SQL>\n"
+          + "      <SQL dialect=\"netezza\">\n"
+          + "        <![CDATA[SELECT * FROM \"customer\"]]>\n"
+          + "      </SQL>\n"
+          + "      <SQL dialect=\"db2\">\n"
+          + "        <![CDATA[SELECT * FROM \"customer\"]]>\n"
+          + "      </SQL>\n"
+          + "    </View>\n"
+          + "    <Level name=\"Gender\" table=\"gender2\" column=\"gender\" uniqueMembers=\"true\"/>\n"
+          + "  </Hierarchy>\n"
+          + "</Dimension>"
+          + "  <Measure name=\"Unit Sales\" column=\"unit_sales\" aggregator=\"sum\"\n"
+          + "      formatString=\"Standard\"/>\n"
+          + "</Cube>",
+          null, null, null, null);
+
+      if (!testContext.getDialect().allowsFromQuery()) {
+          return;
+      }
+
+      Result result = testContext.executeQuery(
+          "select {[Gender2].members} on columns from [GenderCube]");
+
+      TestContext.assertEqualsVerbose(
+          "[Gender2].[All Gender]\n"
+          + "[Gender2].[F]\n"
+          + "[Gender2].[M]",
+          TestContext.toString(
+              result.getAxes()[0].getPositions()));
+  }
+
     public void testInvalidSchemaAccess() {
         final TestContext testContext = TestContext.instance().create(
             null, null, null, null, null,
