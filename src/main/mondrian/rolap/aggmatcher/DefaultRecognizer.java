@@ -302,6 +302,9 @@ class DefaultRecognizer extends Recognizer {
                     pair.left.getName(),
                     collapsed,
                     pair.left);
+                if (!returnValue){
+                  return;
+                }
             }
         } finally {
             msgRecorder.popContextName();

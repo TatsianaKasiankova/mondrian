@@ -589,11 +589,11 @@ abstract class Recognizer {
                             aggColumn.column.name,
                             rel.toString(),
                             levelColumnName);
-                        msgRecorder.reportError(msg);
+                        msgRecorder.reportWarning(msg);
 
                         returnValue = false;
 
-                        msgRecorder.throwRTException();
+                        return;
                     }
                 }
             } else {
@@ -631,11 +631,11 @@ abstract class Recognizer {
                     buf.append(factTable.getAlias());
                     buf.append(", tableAlias=");
                     buf.append(tableAlias);
-                    msgRecorder.reportError(buf.toString());
+                    msgRecorder.reportWarning(buf.toString());
 
                     returnValue = false;
 
-                    msgRecorder.throwRTException();
+                   return;
                 }
 
 
@@ -662,11 +662,11 @@ abstract class Recognizer {
                     buf.append(levelColumnName);
                     buf.append(", symbolicName=");
                     buf.append(symbolicName);
-                    msgRecorder.reportError(buf.toString());
+                    msgRecorder.reportWarning(buf.toString());
 
                     returnValue = false;
 
-                    msgRecorder.throwRTException();
+                    return;
                 } else {
                     aggUsage.rColumn = rc;
                 }
