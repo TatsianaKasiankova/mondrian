@@ -10,6 +10,7 @@
 package mondrian.spi.impl;
 
 import mondrian.rolap.SqlStatement;
+import mondrian.spi.DialectUtil;
 
 import java.sql.*;
 import java.util.regex.Pattern;
@@ -22,6 +23,7 @@ import java.util.regex.PatternSyntaxException;
  * @since Nov 23, 2008
  */
 public class PostgreSqlDialect extends JdbcDialectImpl {
+    private final static String UNICODE_CASE_FLAG_REGEXP = "|(?u)";
     public static final JdbcDialectFactory FACTORY =
         new JdbcDialectFactory(
             PostgreSqlDialect.class,
@@ -88,6 +90,7 @@ public class PostgreSqlDialect extends JdbcDialectImpl {
             // Not a valid Java regex. Too risky to continue.
             return null;
         }
+        javaRegex = DialectUtil.cleanUnicodeCaseFlagInRegularExpression( javaRegex, this );
         javaRegex = javaRegex.replace("\\Q", "");
         javaRegex = javaRegex.replace("\\E", "");
         final StringBuilder sb = new StringBuilder();

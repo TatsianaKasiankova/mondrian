@@ -35,8 +35,8 @@ public class ImpalaDialectTest extends TestCase {
     public void testGenerateRegularExpression_CaseInsensitive()
         throws Exception
     {
-        String sql = callGenerateRegularExpression("table.column", "(?i).*1.*");
-        assertSqlWithRegex(false, sql, "'.*1.*'");
+        String sql = callGenerateRegularExpression("table.column", "(?i)|(?u).*a.*");
+        assertSqlWithRegex(false, sql, "'.*A.*'");
     }
 
     public void testGenerateRegularExpression_CaseSensitive()

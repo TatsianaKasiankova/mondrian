@@ -730,6 +730,12 @@ public interface Dialect {
     boolean allowsRegularExpressionInWhereClause();
 
     /**
+     * Informs Mondrian if the dialect supports UNICODE_CASE flag (?u) in regular expressions
+     * @return True if UNICODE_CASE flag (?u) in regular expressions is supported.
+     */
+    boolean isUnicodeCaseFlagSupported();
+
+    /**
      * Some databases, like Greenplum, don't include nulls as part
      * of the results of a COUNT sql call. This allows dialects
      * to wrap the count expression in something before it is used

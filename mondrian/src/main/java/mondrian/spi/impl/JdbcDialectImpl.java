@@ -898,6 +898,10 @@ public class JdbcDialectImpl implements Dialect {
         return false;
     }
 
+    public boolean isUnicodeCaseFlagSupported() {
+      return false;
+    }
+
     public String generateCountExpression(String exp) {
         return exp;
     }
